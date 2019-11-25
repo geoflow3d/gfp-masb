@@ -1,0 +1,6 @@
+[submodule "external/masbcpp"]
+	path = external/masbcpp
+	url = https://github.com/tudelft3d/masbcpp.git
+[submodule "external/region-grower"]
+	path = external/region-grower
+	url = https://github.com/ylannl/region-grower.git
