@@ -8,6 +8,14 @@ find_package(geoflow REQUIRED)
 # dependencies
 find_package(glm)
 find_package(CGAL QUIET COMPONENTS Core)
+
+if(EXISTS "${PROJECT_SOURCE_DIR}/.gitmodules")
+  execute_process(
+    COMMAND git submodule update --init masbcpp region-grower
+    WORKING_DIRECTORY   ${PROJECT_SOURCE_DIR}/external
+    )
+endif()
+
 add_subdirectory(external/masbcpp)
 include_directories(
   external/masbcpp/src
