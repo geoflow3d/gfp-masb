@@ -39,5 +39,8 @@ set_target_properties(
   gfp_masb
   PROPERTIES CXX_STANDARD 17
 )
+if(MSVC)
+  add_compile_options("/Zc:__cplusplus")
+endif(MSVC)
 
 install(TARGETS gfp_masb DESTINATION ${geoflow_PLUGIN_FOLDER})
