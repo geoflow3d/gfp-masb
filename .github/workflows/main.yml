@@ -27,7 +27,7 @@ jobs:
         mkdir build
         cd build
         cmake .. -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows
-        cmake --build . --parallel 4 --config Release
+        cmake --build . --target gfp_masb --parallel 4 --config Release
 #     - name: Install NSIS
 #       run: |
 #         Invoke-WebRequest https://netcologne.dl.sourceforge.net/project/nsis/NSIS%203/3.04/nsis-3.04-setup.exe -OutFile nsis-setup.exe
