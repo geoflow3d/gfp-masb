@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  Windows:
+    name: Build Windows
+    runs-on: windows-latest
+    steps:
+    - name: Install dependencies
+      run: |
+        echo $env:VCPKG_INSTALLATION_ROOT
+        $env:VCPKG_DEFAULT_TRIPLET="x64-windows"
+        vcpkg install glm cgal
+    - name: Install Geoflow
+      run: |
+        Invoke-WebRequest https://github.com/geoflow3d/geoflow/releases/download/v0.1.0/Geoflow-0.1.0-win64.exe -OutFile geoflow-setup.exe
+        .\geoflow-setup.exe /S
+    - uses: actions/checkout@v1
+    - name: Build
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows
+        cmake --build . --parallel 4 --config Release
+#     - name: Install NSIS
+#       run: |
+#         Invoke-WebRequest https://netcologne.dl.sourceforge.net/project/nsis/NSIS%203/3.04/nsis-3.04-setup.exe -OutFile nsis-setup.exe
+#         .\nsis-setup.exe /S
+#     - name: Create installer
+#       run: |
+#         cd build
+#         & "C:\Program Files\CMake\bin\cpack" -C Release --verbose
+#     - name: Upload nsis installer as artifact
+#       uses: actions/upload-artifact@master
+#       with:
+#         name: Geoflow-installer-win64
+#         path: build/Geoflow-0.1.0-win64.exe
