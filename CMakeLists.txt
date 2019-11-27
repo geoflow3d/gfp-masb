@@ -40,7 +40,7 @@ set_target_properties(
   PROPERTIES CXX_STANDARD 17
 )
 if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
-  add_compile_options("/Zc:__cplusplus")
+  target_compile_options(gfp_masb PRIVATE "/Zc:__cplusplus")
 endif()
 
 install(TARGETS gfp_masb DESTINATION ${geoflow_PLUGIN_FOLDER})
