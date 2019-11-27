@@ -32,15 +32,15 @@ target_link_libraries(gfp_masb
   geoflow-core 
   glm 
   masbcpp
-CGAL::CGAL CGAL::CGAL_Core
+  CGAL::CGAL CGAL::CGAL_Core
 )
 
 set_target_properties(
   gfp_masb
   PROPERTIES CXX_STANDARD 17
 )
-if(MSVC)
+if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
   add_compile_options("/Zc:__cplusplus")
-endif(MSVC)
+endif()
 
 install(TARGETS gfp_masb DESTINATION ${geoflow_PLUGIN_FOLDER})
