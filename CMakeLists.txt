@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 project (MAT VERSION 0.0.1)
 
-add_definitions(-DGF_PLUGIN_NAME=\"${PROJECT_NAME}\")
-
 find_package(geoflow REQUIRED)
 
 # dependencies
@@ -24,23 +22,18 @@ include_directories(
   external/region-grower
 )
 
-add_library(gfp_masb MODULE
-  plugin.cpp
-  masb_nodes.cpp
-)
-target_link_libraries(gfp_masb 
+set(GF_PLUGIN_NAME ${PROJECT_NAME})
+set(GF_PLUGIN_TARGET_NAME "gfp_masb")
+set(GF_PLUGIN_REGISTER ${PROJECT_SOURCE_DIR}/register.hpp)
+geoflow_create_plugin(masb_nodes.cpp)
+
+target_link_libraries( gfp_masb 
   geoflow-core 
   glm 
   masbcpp
   CGAL::CGAL CGAL::CGAL_Core
 )
 
-set_target_properties(
-  gfp_masb
-  PROPERTIES CXX_STANDARD 17
-)
 if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
   target_compile_options(gfp_masb PRIVATE "/Zc:__cplusplus")
 endif()
-
-install(TARGETS gfp_masb DESTINATION ${geoflow_PLUGIN_FOLDER})
