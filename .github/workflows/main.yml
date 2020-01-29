@@ -36,8 +36,8 @@ jobs:
 #       run: |
 #         cd build
 #         & "C:\Program Files\CMake\bin\cpack" -C Release --verbose
-#     - name: Upload nsis installer as artifact
-#       uses: actions/upload-artifact@master
-#       with:
-#         name: Geoflow-installer-win64
-#         path: build/Geoflow-0.1.0-win64.exe
+    - name: Create artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: gfp-masb-win64
+        path: build/Release/gfp_masb.dll
