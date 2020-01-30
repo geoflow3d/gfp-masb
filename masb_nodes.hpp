@@ -138,4 +138,22 @@ namespace geoflow::nodes::mat {
     // }
     void process();
   };
+
+  class MATCSVWriterNode : public Node
+  {
+    std::string filepath = "out";
+
+  public:
+    using Node::Node;
+    void init()
+    {
+      add_input("points", typeid(PointCollection));
+      add_input("ma_coords", typeid(PointCollection));
+      add_input("radii", typeid(vec1f));
+      add_input("sepangle", typeid(vec1f));
+
+      add_param("filepath", ParamPath(filepath, "File path"));
+    }
+    void process();
+  };
 }

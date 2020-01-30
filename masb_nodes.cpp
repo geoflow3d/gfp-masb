@@ -4,6 +4,9 @@
 #include <cmath>
 #include <algorithm>
 
+#include <fstream>
+#include <iomanip>
+
 namespace geoflow::nodes::mat {
 
 void ComputeMedialAxisNode::process(){
@@ -168,6 +171,36 @@ void RegionGrowMedialAxisNode::process() {
     segment_ids.push_back(int(region_id));
   }
   output("segment_ids").set(segment_ids);
+}
+
+void MATCSVWriterNode::process()
+{
+  auto points = input("points").get<PointCollection>();
+  auto ma_coords = input("ma_coords").get<PointCollection>();
+  auto radii = input("radii").get<vec1f>();
+  auto sepangle = input("sepangle").get<vec1f>();
+
+  std::ofstream f_out(filepath);
+  f_out << std::fixed << std::setprecision(2);
+  f_out << "x y z x_mat1 y_mat1 z_mat1 x_mat2 y_mat2 z_mat2 radius_1 radius_2 sepangle_1 sepangle_2\n";
+  for (size_t i = 0; i < points.size(); ++i)
+  {
+    f_out
+        << points[i][0] + (*manager.data_offset)[0] << " "
+        << points[i][1] + (*manager.data_offset)[1] << " "
+        << points[i][2] + (*manager.data_offset)[2] << " "
+        << ma_coords[i][0] + (*manager.data_offset)[0] << " "
+        << ma_coords[i][1] + (*manager.data_offset)[1] << " "
+        << ma_coords[i][2] + (*manager.data_offset)[2] << " "
+        << ma_coords[i+points.size()][0] + (*manager.data_offset)[0] << " "
+        << ma_coords[i+points.size()][1] + (*manager.data_offset)[1] << " "
+        << ma_coords[i+points.size()][2] + (*manager.data_offset)[2] << " "
+        << radii[i] << " "
+        << radii[i+points.size()] << " "
+        << sepangle[i] << " "
+        << sepangle[i+points.size()] << "\n";
+  }
+  f_out.close();
 }
 
 }

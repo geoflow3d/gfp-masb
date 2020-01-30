@@ -8,4 +8,5 @@ void register_nodes(geoflow::NodeRegister& node_register) {
     node_register.register_node<SegmentMakerNode>("SegmentMaker");
     node_register.register_node<TestPointsNode>("TestPoints");
     node_register.register_node<RegionGrowMedialAxisNode>("RegionGrowMedialAxis");
+    node_register.register_node<MATCSVWriterNode>("MATCSVWriter");
 }
