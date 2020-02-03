@@ -3,6 +3,11 @@
 #include <compute_ma_processing.h>
 #include <compute_normals_processing.h>
 
+// PLY writing
+#include <CGAL/property_map.h>
+#include <CGAL/IO/write_ply_points.h>
+#include <CGAL/IO/read_ply_points.h>
+
 namespace geoflow::nodes::mat {
 
   class ComputeMedialAxisNode:public Node {
@@ -156,4 +161,41 @@ namespace geoflow::nodes::mat {
     }
     void process();
   };
+
+class PLYWriterNode : public Node
+{
+  std::string filepath = "";
+  bool write_binary = false;
+
+public:
+  bool multiple_files = true;
+
+  using Node::Node;
+  void init()
+  {
+    add_input("points", typeid(PointCollection)); //TT_point_collection_list
+    add_input("labels", typeid(vec1i));
+
+    add_param("filepath", ParamPath(filepath, "Filepath"));
+    add_param("write_binary", ParamBool(write_binary, "Binary output"));
+  }
+  void process();
+};
+
+class PLYReaderNode : public Node
+{
+  std::string filepath = "out.ply";
+
+public:
+  using Node::Node;
+  void init()
+  {
+    add_output("points", typeid(PointCollection)); //TT_point_collection_list
+    add_output("normals", typeid(vec3f));
+
+    add_param("filepath", ParamPath(filepath, "Filepath"));
+  }
+  void process();
+};
+
 }
