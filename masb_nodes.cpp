@@ -203,6 +203,41 @@ void MATCSVWriterNode::process()
   f_out.close();
 }
 
+void MATCSVLoaderNode::process()
+{
+  PointCollection points;
+  vec3f normals;
+
+  std::ifstream f_in(filepath);
+  float px, py, pz, r, g, b, nx, ny, nz, sfc;
+  size_t i = 0;
+  std::string header;
+  std::getline(f_in, header);
+  bool found_offset = manager.data_offset.has_value();
+  while (f_in >> px >> py >> pz >> r >> g >> b >> sfc >> nx >> ny >> nz)
+  {
+    if (!found_offset)
+    {
+      manager.data_offset = {px, py, pz};
+      found_offset = true;
+    }
+    if (thin_nth==0)
+    {
+      points.push_back({px - float((*manager.data_offset)[0]), py- float((*manager.data_offset)[1]), pz - float((*manager.data_offset)[2])});
+      normals.push_back({nx, ny, nz});
+    }
+    else if (i % thin_nth == 0) {
+      points.push_back({px - float((*manager.data_offset)[0]), py- float((*manager.data_offset)[1]), pz - float((*manager.data_offset)[2])});
+      normals.push_back({nx, ny, nz});
+    }
+    ++i;
+  }
+  f_in.close();
+
+  output("points").set(points);
+  output("normals").set(normals);
+}
+
 
 void PLYWriterNode::process()
 {

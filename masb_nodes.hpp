@@ -162,6 +162,24 @@ namespace geoflow::nodes::mat {
     void process();
   };
 
+  class MATCSVLoaderNode : public Node
+  {
+    std::string filepath = "out";
+    int thin_nth = 5;
+
+  public:
+    using Node::Node;
+    void init()
+    {
+      add_output("points", typeid(PointCollection));
+      add_output("normals", typeid(vec3f));
+
+      add_param("filepath", ParamPath(filepath, "File path"));
+      add_param("thin_nth", ParamBoundedInt(thin_nth, 0, 100, "Thin factor"));
+    }
+    void process();
+  };
+
 class PLYWriterNode : public Node
 {
   std::string filepath = "";
