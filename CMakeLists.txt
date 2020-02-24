@@ -27,8 +27,6 @@ set(GF_PLUGIN_TARGET_NAME "gfp_masb")
 set(GF_PLUGIN_REGISTER ${PROJECT_SOURCE_DIR}/register.hpp)
 geoflow_create_plugin(masb_nodes.cpp)
 
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
 target_link_libraries( gfp_masb 
   geoflow-core 
   glm 
