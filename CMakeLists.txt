@@ -6,6 +6,7 @@ find_package(geoflow REQUIRED)
 # dependencies
 find_package(glm)
 find_package(CGAL QUIET COMPONENTS Core)
+find_package(OpenMP)
 
 if(EXISTS "${PROJECT_SOURCE_DIR}/.gitmodules")
   execute_process(
@@ -33,6 +34,9 @@ target_link_libraries( gfp_masb
   masbcpp
   CGAL::CGAL CGAL::CGAL_Core
 )
+if(OpenMP_CXX_FOUND)
+  target_link_libraries(gfp_masb OpenMP::OpenMP_CXX)
+endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
   target_compile_options(gfp_masb PRIVATE "/Zc:__cplusplus")
