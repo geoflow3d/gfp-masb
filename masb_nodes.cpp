@@ -173,16 +173,53 @@ void RegionGrowMedialAxisNode::process() {
   output("segment_ids").set(segment_ids);
 }
 
+void SplitMATInteriorExteriorNode::process()
+{
+  auto& ma_coords = input("ma_coords").get<PointCollection>();
+  auto& radii = input("radii").get<vec1f>();
+  auto& sepangle = input("sepangle").get<vec1f>();
+  auto& segids = input("segids").get<vec1i>();
+
+  size_t n = ma_coords.size()/2;
+  
+  PointCollection ma_coords_int;
+  for(auto it = ma_coords.begin(); it!= ma_coords.begin()+n; ++it){
+    ma_coords_int.push_back(*it);
+  }
+  PointCollection ma_coords_ext;
+  for(auto it = ma_coords.begin()+n; it!= ma_coords.end(); ++it){
+    ma_coords_ext.push_back(*it);
+  }
+  output("ma_coords_int").set(ma_coords_int);
+  output("ma_coords_ext").set(ma_coords_ext);
+
+  vec1f radii_int(radii.begin(), radii.begin()+n);
+  vec1f radii_ext(radii.begin()+n, radii.end());
+  output("radii_ext").set(radii_ext);
+  output("radii_int").set(radii_int);
+  
+  vec1f sepangle_int(sepangle.begin(), sepangle.begin()+n);
+  vec1f sepangle_ext(sepangle.begin()+n, sepangle.end());
+  output("sepangle_ext").set(sepangle_ext);
+  output("sepangle_int").set(sepangle_int);
+
+  vec1i segids_int(segids.begin(), segids.begin()+n);
+  vec1i segids_ext(segids.begin()+n, segids.end());
+  output("segids_ext").set(segids_ext);
+  output("segids_int").set(segids_int);
+}
+
 void MATCSVWriterNode::process()
 {
   auto points = input("points").get<PointCollection>();
   auto ma_coords = input("ma_coords").get<PointCollection>();
   auto radii = input("radii").get<vec1f>();
   auto sepangle = input("sepangle").get<vec1f>();
+  auto segids = input("segids").get<vec1i>();
 
   std::ofstream f_out(filepath);
   f_out << std::fixed << std::setprecision(2);
-  f_out << "x y z x_mat1 y_mat1 z_mat1 x_mat2 y_mat2 z_mat2 radius_1 radius_2 sepangle_1 sepangle_2\n";
+  f_out << "x y z x_mat1 y_mat1 z_mat1 x_mat2 y_mat2 z_mat2 radius_1 radius_2 sepangle_1 sepangle_2 segid_1 segid_2\n";
   for (size_t i = 0; i < points.size(); ++i)
   {
     f_out
@@ -198,7 +235,9 @@ void MATCSVWriterNode::process()
         << radii[i] << " "
         << radii[i+points.size()] << " "
         << sepangle[i] << " "
-        << sepangle[i+points.size()] << "\n";
+        << sepangle[i+points.size()] << " "
+        << segids[i] << " "
+        << segids[i+points.size()] << "\n";
   }
   f_out.close();
 }

@@ -144,6 +144,30 @@ namespace geoflow::nodes::mat {
     void process();
   };
 
+  class SplitMATInteriorExteriorNode : public Node
+  {
+  public:
+    using Node::Node;
+    void init()
+    {
+      add_input("ma_coords", typeid(PointCollection));
+      add_input("radii", typeid(vec1f));
+      add_input("sepangle", typeid(vec1f));
+      add_input("segids", typeid(vec1i));
+
+      add_output("ma_coords_int", typeid(PointCollection));
+      add_output("radii_int", typeid(vec1f));
+      add_output("sepangle_int", typeid(vec1f));
+      add_output("segids_int", typeid(vec1i));
+
+      add_output("ma_coords_ext", typeid(PointCollection));
+      add_output("radii_ext", typeid(vec1f));
+      add_output("sepangle_ext", typeid(vec1f));
+      add_output("segids_ext", typeid(vec1i));
+    }
+    void process();
+  };
+
   class MATCSVWriterNode : public Node
   {
     std::string filepath = "out";
@@ -156,6 +180,7 @@ namespace geoflow::nodes::mat {
       add_input("ma_coords", typeid(PointCollection));
       add_input("radii", typeid(vec1f));
       add_input("sepangle", typeid(vec1f));
+      add_input("segids", typeid(vec1i));
 
       add_param("filepath", ParamPath(filepath, "File path"));
     }

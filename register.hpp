@@ -12,4 +12,5 @@ void register_nodes(geoflow::NodeRegister& node_register) {
     node_register.register_node<MATCSVLoaderNode>("MATCSVLoader");
     node_register.register_node<PLYReaderNode>("PLYReader");
     node_register.register_node<PLYWriterNode>("PLYWriter");
+    node_register.register_node<SplitMATInteriorExteriorNode>("SplitMATInteriorExterior");
 }
