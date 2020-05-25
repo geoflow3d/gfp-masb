@@ -122,7 +122,7 @@ namespace geoflow::nodes::mat {
       add_param(ParamBoundedFloat(separation_angle, 0, 180, "separation_angle", "separation_angle"));
       add_param(ParamBoundedFloat(ball_overlap, 0,10, "ball_overlap", "ball_overlap"));
       add_param(ParamInt(k, "k", "k"));
-      add_param(ParamInt(method, "method", "method"));
+      add_param(ParamInt(method, "method", "which region growing criterium to use. 0: angle between bisectors, 1: difference in separation angle, 2: ball overlap, 3: segment count (useless)"));
 
       add_param(ParamPath(filepath, "filepath", "CSV output for adjacencies"));
       add_param(ParamBool(write_adjacencies, "write_adjacencies", "Write adjacencies CSV"));
