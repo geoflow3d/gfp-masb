@@ -29,10 +29,10 @@ namespace geoflow::nodes::mat {
       add_output("ma_spoke_f2", typeid(vec3f));
       add_output("ma_spokecross", typeid(vec3f));
 
-      add_param("initial_radius", ParamBoundedFloat(params.initial_radius, 0, 1000, "Initial radius"));
-      add_param("denoise_preserve", ParamBoundedDouble(params.denoise_preserve, 0, pi, "Denoise preserve"));
-      add_param("denoise_planar", ParamBoundedDouble(params.denoise_planar, 0, pi, "Denoise planar"));
-      add_param("nan_for_initr", ParamBool(params.nan_for_initr, "NaN for initR"));
+      add_param(ParamBoundedFloat(params.initial_radius, 0, 1000, "initial_radius", "Initial radius"));
+      add_param(ParamBoundedDouble(params.denoise_preserve, 0, pi, "denoise_preserve", "Denoise preserve"));
+      add_param(ParamBoundedDouble(params.denoise_planar, 0, pi, "denoise_planar", "Denoise planar"));
+      add_param(ParamBool(params.nan_for_initr, "nan_for_initr", "NaN for initR"));
     }
     void process();
   };
@@ -46,7 +46,7 @@ namespace geoflow::nodes::mat {
       add_input("points", typeid(PointCollection));
       add_output("normals", typeid(vec3f));
       
-      add_param("k", ParamBoundedInt(params.k, 1, 100, "k"));
+      add_param(ParamBoundedInt(params.k, 1, 100, "k", "k"));
     }
     void process();
   };
@@ -71,7 +71,7 @@ namespace geoflow::nodes::mat {
       add_output("normals", typeid(vec3f));
       add_output("values", typeid(vec1f));
       
-      add_param("grid", ParamInt(grid, "Grid size"));
+      add_param(ParamInt(grid, "grid", "Grid size"));
     }
     void process() {
       PointCollection points;
@@ -112,13 +112,13 @@ namespace geoflow::nodes::mat {
       add_input("ma_radii", typeid(vec1f));
       add_output("segment_ids", typeid(vec1i));
 
-      add_param("shape_count", ParamInt(shape_count, "shape_count"));
-      add_param("min_count", ParamInt(min_count, "min_count"));
-      add_param("bisector_angle", ParamBoundedFloat(bisector_angle, 0, 180, "bisector_angle"));
-      add_param("separation_angle", ParamBoundedFloat(separation_angle, 0, 180, "separation_angle"));
-      add_param("ball_overlap", ParamBoundedFloat(ball_overlap, 0,10, "ball_overlap"));
-      add_param("k", ParamInt(k, "k"));
-      add_param("method", ParamInt(method, "method"));
+      add_param(ParamInt(shape_count, "shape_count", "shape_count"));
+      add_param(ParamInt(min_count, "min_count", "min_count"));
+      add_param(ParamBoundedFloat(bisector_angle, 0, 180, "bisector_angle", "bisector_angle"));
+      add_param(ParamBoundedFloat(separation_angle, 0, 180, "separation_angle", "separation_angle"));
+      add_param(ParamBoundedFloat(ball_overlap, 0,10, "ball_overlap", "ball_overlap"));
+      add_param(ParamInt(k, "k", "k"));
+      add_param(ParamInt(method, "method", "method"));
     }
     // void gui(){
     //   ImGui::SliderInt("k", &param<int>("k"), 0, 100);
@@ -182,7 +182,7 @@ namespace geoflow::nodes::mat {
       add_input("sepangle", typeid(vec1f));
       add_input("segids", typeid(vec1i));
 
-      add_param("filepath", ParamPath(filepath, "File path"));
+      add_param(ParamPath(filepath, "filepath", "File path"));
     }
     void process();
   };
@@ -199,8 +199,8 @@ namespace geoflow::nodes::mat {
       add_output("points", typeid(PointCollection));
       add_output("normals", typeid(vec3f));
 
-      add_param("filepath", ParamPath(filepath, "File path"));
-      add_param("thin_nth", ParamBoundedInt(thin_nth, 0, 100, "Thin factor"));
+      add_param(ParamPath(filepath, "filepath", "File path"));
+      add_param(ParamBoundedInt(thin_nth, 0, 100, "thin_nth", "Thin factor"));
     }
     void process();
   };
@@ -219,8 +219,8 @@ public:
     add_input("points", typeid(PointCollection)); //TT_point_collection_list
     add_input("labels", typeid(vec1i));
 
-    add_param("filepath", ParamPath(filepath, "Filepath"));
-    add_param("write_binary", ParamBool(write_binary, "Binary output"));
+    add_param(ParamPath(filepath, "filepath", "Filepath"));
+    add_param(ParamBool(write_binary, "write_binary", "Binary output"));
   }
   void process();
 };
@@ -236,7 +236,7 @@ public:
     add_output("points", typeid(PointCollection)); //TT_point_collection_list
     add_output("normals", typeid(vec3f));
 
-    add_param("filepath", ParamPath(filepath, "Filepath"));
+    add_param(ParamPath(filepath, "filepath", "Filepath"));
   }
   void process();
 };
