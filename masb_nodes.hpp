@@ -103,6 +103,10 @@ namespace geoflow::nodes::mat {
     float ball_overlap = 1.2;
     int k = 10;
     int method = 0;
+
+    std::string filepath = "adjacencies.csv";
+    bool write_adjacencies = false;
+
     public:
     using Node::Node;
     void init() {
@@ -119,6 +123,9 @@ namespace geoflow::nodes::mat {
       add_param(ParamBoundedFloat(ball_overlap, 0,10, "ball_overlap", "ball_overlap"));
       add_param(ParamInt(k, "k", "k"));
       add_param(ParamInt(method, "method", "method"));
+
+      add_param(ParamPath(filepath, "filepath", "CSV output for adjacencies"));
+      add_param(ParamBool(write_adjacencies, "write_adjacencies", "Write adjacencies CSV"));
     }
     // void gui(){
     //   ImGui::SliderInt("k", &param<int>("k"), 0, 100);

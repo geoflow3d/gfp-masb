@@ -170,6 +170,22 @@ void RegionGrowMedialAxisNode::process() {
   for(auto& region_id : R.region_ids) {
     segment_ids.push_back(int(region_id));
   }
+
+  // TODO: compute centroid per segment, generate line segments for visualistion
+  // output segment adjacencies to csv file
+  if (write_adjacencies) {  
+    std::ofstream f_out(filepath);
+    f_out << std::fixed << std::setprecision(2);
+
+    f_out << "seg_hi" << " seg_lo" << " cnt\n";
+    for(auto& [seg_hi, cnts_map] : R.adjacencies) {
+      for(auto& [seg_lo, cnt] : cnts_map) {
+        f_out << seg_hi << " " << seg_lo << " " << cnt << "\n";
+      }
+    }
+    f_out.close();
+  }
+
   output("segment_ids").set(segment_ids);
 }
 
